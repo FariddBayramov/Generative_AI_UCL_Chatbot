@@ -208,12 +208,10 @@ Intent sınıflandırması için `TfidfVectorizer + SVC` pipeline'ı kullanılm�
 │   └── champions_league_chatbot_dataset.xlsx               #Intent sınıflandırma verisi
 ├── models/
 │   ├── intent_classifier.pkl                          #Eğitilmiş TF-IDF + SVM modeli
-│   ├── model1.py
-│   ├── model2.py
-│   ├── model3.py
+│   ├── gpt_model.py
+│   ├── qwen_model.py
 ├── app/
-│   └── streamlit_app.py                         # Arayüz için Streamlit uygulaması
-├── chroma_db/                                   # Vektör tabanlı bilgi deposu
+│   └── streamlit_app.py                         # Arayüz için Streamlit uygulaması                              
 ├── .env                                         # API anahtarı içeren dosya
 ├── README.md                                    # Proje dökümantasyonu
 └── requirements.txt                             # Gerekli Python kütüphaneleri
