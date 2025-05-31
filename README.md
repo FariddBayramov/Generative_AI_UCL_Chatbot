@@ -48,7 +48,7 @@ Veri kümesi, `.xlsx` formatında olup `data/champions_league_chatbot_dataset.xl
 |       ...       |             ...                          |           
 
 - Toplam 45 türde intent,  **1195** örnek cümle içerir.
-
+- Veri seti Kaggle link: https://www.kaggle.com/datasets/feridbayramov/champions-league-chatbot-dataset
 ---
 
 ## 🤖 Kullanılan Modeller (LLM)
