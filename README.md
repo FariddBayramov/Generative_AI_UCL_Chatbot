@@ -1,59 +1,59 @@
 # 🏆UEFA Champions League Chatbot
 
-Bu proje, UEFA Şampiyonlar Ligi hakkında kullanıcıların sorularını yanıtlayabilen bir yapay zekâ destekli chatbot geliştirme sürecini kapsamaktadır. Chatbot, kullanıcının niyetini sınıflandırarak (intent classification) uygun yanıtı üretmekte ve yalnızca Şampiyonlar Ligi ile ilgili konulara odaklanmaktadır.
+This project involves the development of an AI-powered chatbot that can answer users' questions about the UEFA Champions League. The chatbot generates the appropriate response by classifying the user's intention (intent classification) and focuses only on Champions League related topics.
 
-## 🎯 Proje Amacı
+## 🎯 Project Objective
 
-- Kullanıcının sorularını analiz ederek niyetini belirlemek.
-- Sadece UEFA Şampiyonlar Ligi'ne dair bilgi sağlayan bir chatbot geliştirmek.
-- Farklı büyük dil modellerini (LLM) kullanarak chatbot’un çıktısını oluşturmak.
-- Kullanılan modellerin performansını karşılaştırmak.
+- Analysing the user's questions to determine their intentions.
+- Developing a chatbot that only provides information about the UEFA Champions League.
+- Generating the output of the chatbot using different large language models (LLM).
+- To compare the performance of the models used.
 
 ---
 
-## 🚀 Çalıştırma Talimatları
+## 🚀 Run Instructions
 
-1. **Gereksinimleri Kurun:**
+1. **Install the requirements:**
 
 ```bash
 pip install -r requirements.txt
 ```
-2. **.env Dosyasına api key yazınn:**
+2. **Add your API keys to the .env file:**
 ```bash
 OPENAI_API_KEY=your_openai_key
 OPENROUTER_API_KEY=your_openrouter_key
 ```
-3. **Streamlit uygulamasını başlatın:**
+3. **Start the Streamlit app:**
 ```bash
 streamlit run app.py
 ```
 
-## 🧠 Chatbot Akışı
+## 🧠 Chatbot Flow
 
-Chatbot aşağıdaki temel niyetlere cevap verebilir:
+The chatbot can respond to the following core intents:
 
-- `Greeting`: Selamlama (örn. Merhaba)
-- `Goodbye`: Vedalaşma (örn. Görüşürüz)
-- `Reject`: Reddetme
-- `non-champions`: Şampiyonlar Ligi dışı soru algılama
-- `Info_*`: Şampiyonlar Ligi hakkında belirli senaryolar (örn. Info_Players, Info_Records vs.)
-- `History`: Turnuvanın, takımların tarihi bilgileri
-- Ve daha farklı niyet türleriyle birlikte `45` farklı türde niyet sınıfı . . .
+- `Greeting`: Greetings (e.g., Hello)
+- `Goodbye`:  Farewells (e.g., See you)
+- `Reject`: Rejection
+- `non-champions`: Detection of questions unrelated to the Champions League
+- `Info_*`: Specific scenarios about the Champions League (e.g., Info_Players, Info_Records, etc.)
+- `History`: Historical information about the tournament and teams
+- And a total of `45` different intent types, including many others...
 
-### Chatbot Akış Açıklaması
+### Chatbot Flow Description
 
-1. Kullanıcıdan metin girişi alınır.
-2. Metin `TF-IDF` ile vektörleştirilir ve `SVM` ile intent sınıflandırması yapılır.
-3. Eğer niyet Şampiyonlar Ligi ile ilgili değilse, chatbot nazikçe bunu belirtir.
-4. Niyet Şampiyonlar Ligi ile ilgiliyse, vektör tabanlı bilgi alma `(RAG)` sistemi ile içerik seçilir.
-5. Belirlenen niyet ve bilgi, seçilen LLM'e prompt olarak gönderilir.
-6. AI modelinden alınan yanıt kullanıcıya gösterilir.
-7. Yanıt üretimi sırasında langchain kütüphanesi ile ChatOpenAI çağrısı yapılır. Prompt içine önce tahmin edilen intent, ardından da vektör tabanlı bilgi dahil edilir. Böylece konu dışına çıkmayan ve bağlama uygun cevaplar üretilir.
+1. Text input is received from the user.
+2. The text is vectorized using `TF-IDF`, and intent classification is performed with `SVM`.
+3. If the intent is not related to the Champions League, the chatbot politely indicates this.
+4. If the intent is related to the Champions League, content is selected using a vector-based retrieval system` (RAG)`.
+5. The identified intent and retrieved information are sent as a prompt to the selected LLM.
+6. The response from the AI model is displayed to the user.
+7. During response generation, a ChatOpenAI call is made using the Langchain library. The predicted intent is included first in the prompt, followed by the vector-based information. This ensures that the answers remain on-topic and contextually relevant.
 ---
 
-## 🗃️ Veri Seti
+## 🗃️ Dataset
 
-Veri kümesi, `.xlsx` formatında olup `data/champions_league_chatbot_dataset.xlsx` dosyasında yer almaktadır. Veri kümesi aşağıdaki formatta hazırlanmıştır:
+The dataset is in `.xlsx` format and is located at `data/champions_league_chatbot_dataset.xlsx`. The dataset is structured in the following format:
 
 | Intent          |                 Example                  |     
 |-----------------|------------------------------------------|
@@ -64,88 +64,82 @@ Veri kümesi, `.xlsx` formatında olup `data/champions_league_chatbot_dataset.xl
 |       ...       |             ...                          |                        
 |       ...       |             ...                          |           
 
-- Toplam 45 türde intent,  **1195** örnek cümle içerir.
-- Veri seti Kaggle link: https://www.kaggle.com/datasets/feridbayramov/champions-league-chatbot-dataset
+- Contains a total of 45 intent types with **1195** example sentences.
+- Dataset Kaggle link: https://www.kaggle.com/datasets/feridbayramov/champions-league-chatbot-dataset
 ---
 
-## 🤖 Kullanılan Modeller (LLM)
+## 🤖  Models Used (LLM)
 
-Projede iki farklı LLM kullanılmıştır:
+Two different LLMs are used in the project:
 
-| Model Adı                                  |        Sağlayıcı     |
+| Model Name                                 |        Provider      |
 |--------------------------------------------|----------------------|
 | `GPT-3.5-Turbo`                            |         OPENAI       |
 | `qwen/qwen3-235b-a22b:free`                | Alibaba (OpenRouter) |
 
-### Model Seçim Gerekçesi
+### Reason for Model Selection
 
-- **GPT-3.5 Turbo**: Hızlı ve uygun maliyetlidir. Genel amaçlı diyaloglar için güçlüdür ve geniş bir bilgi tabanına sahiptir.
-- **Qwen-3 235B**: Büyük kapasitesi ve diyalog becerileri sayesinde detaylı ve doğru cevaplar üretebilir, ücretsizdir.
-
-
-### Kullanılan API ve Araçlar
-
-- [Platform OPENAI](https://platform.openai.com/api-keys) ve [OpenRouter.ai](https://openrouter.ai) üzerinden API key alındı.
-- `openai` Python paketi ile OpenRouter API uyumlu entegrasyon gerçekleştirilmiştir.
-- `.env` dosyasından API anahtarı çekilmiştir.
+- **GPT-3.5 Turbo:** Fast and cost-effective. Powerful for general-purpose dialogues and has a broad knowledge base.
+- **Qwen-3 235B:** With its large capacity and dialogue capabilities, it can generate detailed and accurate responses and is free to use.
 
 
-## 🧩 Intent Sınıflandırıcı
+### APIs and Tools Used
 
-- Bu projede kullanıcı sorularını anlamak için `TF-IDF + SVM`
-temelli bir niyet sınıflandırıcısı kullanılmıştır.
+- API keys obtained via [Platform OPENAI](https://platform.openai.com/api-keys) and [OpenRouter.ai](https://openrouter.ai).
+- Integration with OpenRouter API done using the `openai` Python package.
+- API keys are read from the `.env` file.
 
-- `TfidfVectorizer`: N-gram (1,2) ile kelime vektörleri oluşturur.
 
-- `SVC (Support Vector Machine)`: Doğrusal çekirdek (linear kernel) ile sınıflandırma yapar.
+## 🧩 Intent Classifier
 
-- Eğitim sonrası model `models/intent_classifier.pkl` olarak kaydedilir.
+- In this project, a `TF-IDF + SVM` based intent classifier is used to understand user queries.
 
-- `predict_intent()` fonksiyonu ile gerçek zamanlı tahmin yapılabilir.
+- `TfidfVectorizer`: Creates word vectors using n-grams (1,2).
 
-- Eğitim/Test oranı: **%70 / %30**
+- `SVC (Support Vector Machine)`: Performs classification with a linear kernel.
 
-⚠️ Modelin eğitilmesi sırasında maksimum özellik frekansı (max_df=0.95) kullanılmış, İngilizce stopword'ler filtrelenmiştir.
+- After training, the model is saved as `models/intent_classifier.pkl`.
+
+- Real-time predictions can be made using the `predict_intent()` function.
+
+- Train/Test split ratio: **70% / 30%**
+
+⚠️ During training, a maximum feature frequency (`max_df=0.95`) was applied and English stopwords were filtered.
 
 ![intent](https://github.com/user-attachments/assets/076163ad-fe7a-4025-b132-16745e2893ed)
 
-## 🔍 Vektör Tabanlı Bilgi Alma (RAG)
+## 🔍 Vector-Based Information Retrieval (RAG)
 
-Chatbot'un bilgi kaynağı olarak sadece `data/champions_league_information.txt` dosyası kullanılmaktadır. Bu metin dosyası `CharacterTextSplitter` ile küçük parçalara `(chunk)` ayrılır ve `OpenAIEmbeddings` ile vektörleştirilerek `Chroma` vektör veri tabanına eklenir.
+The chatbot’s knowledge source is only the `data/champions_league_information.txt` file. This text file is split into small chunks using `CharacterTextSplitter` and vectorized with `OpenAIEmbeddings`, then added to the `Chroma` vector database.
 
-**Kullanılan yapı:**
+**Configuration used:**
 
-``CharacterTextSplitter``: `chunk_size=500`, `chunk_overlap=50`
+- `CharacterTextSplitter`: `chunk_size=500`, `chunk_overlap=50`  
+- `OpenAIEmbeddings`: `"text-embedding-3-large"` model  
+- `Chroma`: Persistent storage folder `"chroma_db"`  
 
-`OpenAIEmbeddings`: `"text-embedding-3-large"` modeli
+**Information Retrieval Process:**
 
-`Chroma`: Kalıcı veri deposu olarak `"chroma_db"` klasörü kullanılır.
+User question → sent to intent classifier.  
+Classified intent → retriever fetches similar paragraphs.  
+Retrieved information + user question → sent as prompt to the LLM.
 
-**Bilgi Arama Süreci:**
+## 📊 Model Performance Comparison
 
-Kullanıcıdan gelen soru → niyet sınıflandırıcısına gönderilir.
+For intent classification, a `TfidfVectorizer + SVC` pipeline was used. Evaluation metrics include:
 
-Sınıflandırılan niyet → retriever ile benzer paragraflar alınır.
+- **Precision**  
+- **Recall**  
+- **F1 Score**  
+- **Confusion Matrix**  
 
-Alınan bilgi + kullanıcı sorusu → LLM’e prompt olarak iletilir.
+### Train/Test Split
 
+- Training data: 70%  
+- Test data: 30%  
+- All models were evaluated on the same test set.
 
-
-## 📊 Model Performans Karşılaştırması
-Intent sınıflandırması için `TfidfVectorizer + SVC` pipeline'ı kullanılmıştır. Değerlendirme metrikleri:
-
-- **Precision**
-- **Recall**
-- **F1 Score**
-- **Confusion Matrix** 
-
-### Train/Test Ayrımı
-
-- Eğitim verisi: %70
-- Test verisi: %30
-- Tüm modeller aynı test seti ile değerlendirilmiştir.
-
-### Performans Sonuçları
+### Performance Results
 
 | intent               |   precision |   recall |   f1_score |   support |
 |:---------------------|------------:|---------:|-----------:|----------:|
@@ -201,33 +195,32 @@ Intent sınıflandırması için `TfidfVectorizer + SVC` pipeline'ı kullanılm�
 
 
 
-**Karışıklık matrisi:**
+**Confusion Matrix:**
 
 ![conf](https://github.com/user-attachments/assets/659c0478-ca66-4262-a58c-be1d590ddef6)
 
-
 ---
 
-## 💬 Uygulama Arayüzü
+## 💬 Application Interface
 
-- Gelişmiş bir arayüz olarak `streamlit` destekli görsel arayüz mevcuttur.
-- Kullanıcıdan metin alınır ve yanıt ekranda gösterilir.
+- An advanced interface is provided using `streamlit` for a visual UI.  
+- Text input is received from the user and the response is displayed on the screen.
 
 ![gui](https://github.com/user-attachments/assets/a5207a89-6b9e-4244-bda6-67fcae663ef5)
 
 ---
 
-## 📁 Proje Yapısı
-
-```bash
+## 📁 Project Structure
+```
 ├── data/
-│   ├── champions_league_information.txt        #Şampiyonlar Ligi hakkında bilgi metni
-│   └── champions_league_chatbot_dataset.xlsx               #Intent sınıflandırma verisi
+│   ├── champions_league_information.txt        # Text file with information about the Champions League
+│   └── champions_league_chatbot_dataset.xlsx   # Intent classification dataset
 ├── models/
-│   └── intent_classifier.pkl                          #Eğitilmiş TF-IDF + SVM modeli
+│   └── intent_classifier.pkl                    # Trained TF-IDF + SVM model
 ├── app/
-│   ├── streamlit_app.py                        # Arayüz için Streamlit uygulaması 
-│   ├──  gpt_model.py
-│   ├── qwen_model.py                                                   
-├── README.md                                    # Proje dökümantasyonu
-└── requirements.txt                             # Gerekli Python kütüphaneleri
+│   ├── streamlit_app.py                         # Streamlit application for the user interface
+│   ├── gpt_model.py
+│   ├── qwen_model.py
+├── README.md                                    # Project documentation
+└── requirements.txt                             # Required Python libraries
+
